@@ -420,14 +420,10 @@ Experiment to build executable. See git log for source code provenance.
 
     </description>
 
-    <component name="fms" paths="shared">
+    <component name="fms" paths="FMS">
      <description domainName="infrastructure" communityName="FMS" communityVersion="$(RELEASE)" communityGrid=""/>
-      <source versionControl="git" root="http://gitlab.gfdl.noaa.gov/fms">
-        <codeBase version="master"> shared.git </codeBase>
-        <csh><![CDATA[
-          ( cd shared && git checkout $(AWG_GIT_TAG) )
-          ]]>
-        </csh>
+      <source versionControl="git" root="https://github.com/NOAA-GFDL">
+        <codeBase version="$(RELEASE)"> FMS.git </codeBase>
       </source>
       <compile>
         <cppDefs>$(F2003_FLAGS) -Duse_libMPI -Duse_netCDF </cppDefs>
@@ -537,14 +533,11 @@ Experiment to build executable. See git log for source code provenance.
       </compile>
     </component>
 
-    <component name="coupler" paths="coupler" requires="fms atmos_dyn atmos_phys land_lad2 ice_sis mom6 ">
+    <component name="coupler" paths="coupler" 
+               requires="fms atmos_dyn atmos_phys land_lad2 ice_sis mom6 ">
       <description domainName="FMS Coupler" communityName="coupler" communityVersion="$(RELEASE)" communityGrid=""/>
-      <source versionControl="git" root="http://gitlab.gfdl.noaa.gov/fms">
-        <codeBase version="master"> coupler.git </codeBase>
-        <csh><![CDATA[
-        ( cd coupler && git checkout $(AWG_GIT_TAG) )
-        ]]>
-        </csh>
+      <source versionControl="git" root="https://github.com/NOAA-GFDL">
+        <codeBase version="$(RELEASE)"> coupler.git </codeBase>
       </source>
       <compile>
         <cppDefs>$(F2003_FLAGS)</cppDefs>
