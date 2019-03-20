@@ -12,7 +12,7 @@
 # .. module load git
 # .. mkdir -p $home/awg/xanadu
 # .. cd $home/awg/xanadu
-# .. git clone -b awg_xanadu_b14 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
+# .. git clone -b awg_xanadu_bx14 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
 # .. cd xml_xanadu
 
 # Change YOURGROUPLETTER to your group, such as f, w, o...
