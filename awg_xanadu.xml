@@ -8,18 +8,18 @@
 <!-- QUICK START GUIDE:
 
 # To checkout this xml (you should have done this already)
-# .. module load fre/bronx-13
+# .. module load fre/bronx-14
 # .. module load git
 # .. mkdir -p $home/awg/xanadu
 # .. cd $home/awg/xanadu
-# .. git clone -b awg_xanadu_b13 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
+# .. git clone -b awg_xanadu_b14 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
 # .. cd xml_xanadu
 
 # Change YOURGROUPLETTER to your group, such as f, w, o...
   <property name="GFDL_YGL" value="gfdl_YOURGROUPLETTER"/>
 
 # To check out source code and compile:
-# .. module load fre/bronx-13
+# .. module load fre/bronx-14
 # .. fremake -x awg_xanadu.xml -p ncrc3.intel -t openmp cm4p12_xanadu
 
 # To run regression test:
@@ -58,7 +58,7 @@ ref> c96L33_am4p0_cmip6Diag/ncrc4.intel-prod-openmp/0m8d             aa5b334386f
   <property name="AWG_GIT_TAG" value="xanadu"/>             <!-- git tag for AWG source code -->
   <property name="AWG_VERSION" value="xanadu"/>                 <!-- AWG source code version -->
   <property name="FRE_STEM" value="awg/$(RELEASE)"/>
-  <property name="FRE_VERSION" value="bronx-13"/>
+  <property name="FRE_VERSION" value="bronx-14"/>
   <property name="ANALYSIS_SWITCH" value="on"/>
   <property name="TS_ANALYSIS_SWITCH" value="off"/>
   <property name="ANALYSIS_ESM_SWITCH" value="off"/>
@@ -361,6 +361,47 @@ configuration.
         module load git
         ]]>
       </csh>
+    </platform>
+<!-- GNU (GCC) -->
+    <platform name="gfdl.ncrc4-gnu">
+      <xi:include xpointer="xpointer(//setup/platform[@name='gfdl.ncrc3-intel']/node())" />
+    </platform>
+
+    <platform name="ncrc4.gnu">
+      <freVersion>$(FRE_VERSION)</freVersion>
+      <compiler type="gnu" version="7.3.0" />
+      <project>$(GFDL_YGL)</project>
+      <directory stem="$(FRE_STEM)">
+         <src>$HOME/$(stem)/$(name)/src</src>
+         <scripts>$HOME/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
+         <stdout>$SCRATCH/$USER/$(stem)/$(name)/$(platform)-$(target)/stdout</stdout>
+      </directory>
+      <property name="F2003_FLAGS"         value=" -DINTERNAL_FILE_NML "/>
+      <property name="AWG_INPUT_HOME"      value="$(AWG_INPUT_HOME_GAEA)"/>
+      <property name="AWG_ARCHIVE_ROOT"    value="/lustre/f2/pdata/gfdl/gfdl_M/cjg/archive/mdt"/>
+      <property name="CMIP6_ARCHIVE_ROOT"   value="/lustre/f2/pdata/gfdl/cmip6/datasets"/>
+      <property name="H1G_ARCHIVE_ROOT"    value="/lustre/f2/pdata/gfdl/gfdl_M/Huan.Guo/archive/mdt"/>
+      <property name="NCORE_PER_NODE"      value="36"/>
+    </platform>
+
+    <platform name="gfdl.ncrc3-gnu">
+      <xi:include xpointer="xpointer(//setup/platform[@name='gfdl.ncrc3-intel']/node())" />
+    </platform>
+    <platform name="ncrc3.gnu">
+      <freVersion>$(FRE_VERSION)</freVersion>
+      <compiler type="gnu" version="7.3.0" />
+      <project>$(GFDL_YGL)</project>
+      <directory stem="$(FRE_STEM)">
+         <src>$HOME/$(stem)/$(name)/src</src>
+         <scripts>$HOME/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
+         <stdout>$SCRATCH/$USER/$(stem)/$(name)/$(platform)-$(target)/stdout</stdout>
+      </directory>
+      <property name="F2003_FLAGS"         value=" -DINTERNAL_FILE_NML "/>
+      <property name="AWG_INPUT_HOME"      value="$(AWG_INPUT_HOME_GAEA)"/>
+      <property name="AWG_ARCHIVE_ROOT"    value="/lustre/f2/pdata/gfdl/gfdl_M/cjg/archive/mdt"/>
+      <property name="CMIP6_ARCHIVE_ROOT"   value="/lustre/f2/pdata/gfdl/cmip6/datasets"/>
+      <property name="H1G_ARCHIVE_ROOT"    value="/lustre/f2/pdata/gfdl/gfdl_M/Huan.Guo/archive/mdt"/>
+      <property name="NCORE_PER_NODE"      value="32"/>
     </platform>
 
   </setup>
