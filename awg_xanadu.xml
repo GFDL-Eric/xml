@@ -8,18 +8,18 @@
 <!-- QUICK START GUIDE:
 
 # To checkout this xml (you should have done this already)
-# .. module load fre/bronx-14
+# .. module load fre/bronx-15
 # .. module load git
 # .. mkdir -p $home/awg/xanadu
 # .. cd $home/awg/xanadu
-# .. git clone -b awg_xanadu_b14 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
+# .. git clone -b awg_xanadu_bx15 http://gitlab.gfdl.noaa.gov/mdt/xml.git xml_xanadu
 # .. cd xml_xanadu
 
 # Change YOURGROUPLETTER to your group, such as f, w, o...
   <property name="GFDL_YGL" value="gfdl_YOURGROUPLETTER"/>
 
 # To check out source code and compile:
-# .. module load fre/bronx-14
+# .. module load fre/bronx-15
 # .. fremake -x awg_xanadu.xml -p ncrc3.intel -t openmp cm4p12_xanadu
 
 # To run regression test:
@@ -58,7 +58,7 @@ ref> c96L33_am4p0_cmip6Diag/ncrc4.intel-prod-openmp/0m8d             aa5b334386f
   <property name="AWG_GIT_TAG" value="xanadu"/>             <!-- git tag for AWG source code -->
   <property name="AWG_VERSION" value="xanadu"/>                 <!-- AWG source code version -->
   <property name="FRE_STEM" value="awg/$(RELEASE)"/>
-  <property name="FRE_VERSION" value="bronx-14"/>
+  <property name="FRE_VERSION" value="bronx-15"/>
   <property name="ANALYSIS_SWITCH" value="on"/>
   <property name="TS_ANALYSIS_SWITCH" value="off"/>
   <property name="ANALYSIS_ESM_SWITCH" value="off"/>
