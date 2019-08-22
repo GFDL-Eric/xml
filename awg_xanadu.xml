@@ -51,7 +51,7 @@ ref> c96L33_am4p0_cmip6Diag/ncrc4.intel-prod-openmp/0m8d             aa5b334386f
 
 <experimentSuite rtsVersion="4" xmlns:xi="http://www.w3.org/2003/XInclude">
 
-  <property name="GFDL_YGL" value="gfdl_YOURGROUPLETTER"/> <!-- Please make sure to change "YOURGROUPLETTER" to your group, such as b, f, g, m, o... -->
+  <property name="GFDL_YGL" value="gfdl_f"/> <!-- Please make sure to change "YOURGROUPLETTER" to your group, such as b, f, g, m, o... -->
   <property name="RELEASE" value="xanadu"/>                        <!-- base code release -->
   <property name="MOM6_DATE" value="om4_v1.0.1"/>                  <!-- git tag date for MOM6 source code -->
   <property name="MOM6_GIT_TAG" value="dev/gfdl/2018.04.06"/>  <!-- git tag for MOM6 source code -->
@@ -229,8 +229,8 @@ configuration.
 <!-- Please make sure to change "YOURGROUPLETTER" to your group, such as b, f, g, m, o... -->
       <project>$(GFDL_YGL)</project>
       <directory stem="$(FRE_STEM)">
-         <src>$HOME/$(stem)/$(name)/src</src>
-         <scripts>$HOME/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
+         <src>$DEV/$USER/$(stem)/$(name)/src</src>
+         <scripts>$DEV/$USER/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
          <stdout>$SCRATCH/$USER/$(stem)/$(name)/$(platform)-$(target)/stdout</stdout>
       </directory>
       <property name="F2003_FLAGS"         value=" -DINTERNAL_FILE_NML -g  "/>
@@ -244,7 +244,7 @@ configuration.
 #
        setenv KMP_STACKSIZE 512m
        setenv NC_BLKSZ 1M
-       setenv OMP_SCHEDULE "static,1"
+#       setenv OMP_SCHEDULE "static,1"
 
       ]]></csh>
     </platform>
@@ -288,8 +288,8 @@ configuration.
 <!-- Please make sure to change "YOURGROUPLETTER" to your group, such as b, f, g, m, o... -->
       <project>$(GFDL_YGL)</project>
       <directory stem="$(FRE_STEM)">
-         <src>$HOME/$(stem)/$(name)/src</src>
-         <scripts>$HOME/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
+         <src>$DEV/$USER/$(stem)/$(name)/src</src>
+         <scripts>$DEV/$USER/$(stem)/xml_$(AWG_VERSION)/scripts/$(platform)-$(target)</scripts>
          <stdout>$SCRATCH/$USER/$(stem)/$(name)/$(platform)-$(target)/stdout</stdout>
       </directory>
       <property name="F2003_FLAGS"         value=" -DINTERNAL_FILE_NML -g  "/>
@@ -303,7 +303,7 @@ configuration.
 #
        setenv KMP_STACKSIZE 512m
        setenv NC_BLKSZ 1M
-       setenv OMP_SCHEDULE "static,1"
+#       setenv OMP_SCHEDULE "static,1"
 
       ]]></csh>
     </platform>
@@ -483,11 +483,7 @@ Experiment to build executable. See git log for source code provenance.
     <component name="land_lad2" requires="fms" paths="land_lad2">
       <description domainName="LM3" communityName="land_lad2" communityVersion="dev/master" communityGrid=""/>
       <source versionControl="git" root="http://gitlab.gfdl.noaa.gov/fms">
-        <codeBase version="master">land_lad2.git</codeBase>
-        <csh><![CDATA[
-          ( cd land_lad2 && git checkout $(AWG_GIT_TAG) )
-         ]]>
-        </csh>
+        <codeBase version="testing_20190705">land_lad2.git</codeBase>
       </source>
       <compile doF90Cpp="yes">
        <cppDefs>$(F2003_FLAGS) -nostdinc</cppDefs>
@@ -1168,460 +1164,194 @@ $baseDate
 
 
 
-<!--================================-->
-<!--= LAYOUTS FOR C96 EXPERIMENTS  =-->
-<!--================================-->
-
-<freInclude name="c96_864_production">
-        <resources jobWallclock="16:00:00"
-                   segRuntime="1:50:00" >
-               <atm ranks="432" threads="2"    layout = "3,24"    io_layout = "1,4" />
-               <lnd                            layout = "3,24"    io_layout = "1,4" />
-               <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" /> 
-               <ice                            layout = "144,3"   io_layout = "1,3" />
-        </resources>
-</freInclude>
-
-<freInclude name="c96_1152_production">
-        <resources jobWallclock="16:00:00"
-                   segRuntime="04:00:00" >
-                <atm ranks="576" threads="2"    layout = "4,24"    io_layout = "1,4" />
-                <lnd                            layout = "4,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,4"   io_layout = "1,4" /> 
-                <ice                            layout = "144,4"   io_layout = "1,4" />
-        </resources>
-</freInclude>
-
-<freInclude name="c96_1728_production">
-        <resources jobWallclock="16:00:00"
-                   segRuntime="03:00:00" >
-                <atm ranks="864" threads="2"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-        </resources>
-</freInclude>
+<!--=====================-->
+<!--= RESOURCE LAYOUTS  =-->
+<!--=====================-->
 
 
-<freInclude name="c96_216_basic">
-        <run days="8">
-                <resources jobWallclock="02:30:00">
-                <atm ranks="216" threads="1"    layout = "3,12"    io_layout = "1,4" />
-                <lnd                            layout = "3,12"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" />
-                <ice                            layout = "72,3"    io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_off_omp_off_c3">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="96"  threads="1"    layout = "2,8"     io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "2,8"     io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "32,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "32,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-
-<freInclude name="c96_216_rts">
-        <run days="8">
-                <resources jobWallclock="00:40:00">
-                <atm ranks="216" threads="1"    layout = "3,12"    io_layout = "1,4" />
-                <lnd                            layout = "3,12"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" />
-                <ice                            layout = "72,3"    io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_384_rts">
-        <run days="4 4">
-                <resources jobWallclock="00:40:00">
-                <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,4" />
-                <lnd                            layout = "4,8"     io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" /> 
-                <ice                            layout = "64,3"    io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_on_omp_off_c3">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="96"  threads="2"    layout = "2,8"     io_layout = "1,4" hyperthread = "on"  />
+    <lnd                            layout = "2,8"     io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "32,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "32,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c96_432_debug">
-        <run days="2">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="432" threads="1"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" /> 
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_off_omp_on_c3">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="96"  threads="2"    layout = "2,8"     io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "2,8"     io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "32,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "32,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c96_216_debugrts">
-        <run days="2">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="216" threads="1"    layout = "3,12"    io_layout = "1,4" />
-                <lnd                            layout = "3,12"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" />
-                <ice                            layout = "72,3"    io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_384_debugrts">
-        <run days="1 1">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,4" />
-                <lnd                            layout = "4,8"     io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" /> 
-                <ice                            layout = "64,3"    io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_on_omp_on_c3">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="96"  threads="4"    layout = "2,8"     io_layout = "1,4" hyperthread = "on"  />
+    <lnd                            layout = "2,8"     io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "32,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "32,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c96_864_restart">
-        <run days="4 4">
-                <resources jobWallclock="00:45:00">
-                <atm ranks="432" threads="2"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" /> 
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_off_omp_off_c4">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="108" threads="1"    layout = "3,6"     io_layout = "1,2" hyperthread = "off" />
+    <lnd                            layout = "3,6"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "36,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "36,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c96_1152_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="576" threads="2"    layout = "4,24"    io_layout = "1,4" />
-                <lnd                            layout = "4,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,4"   io_layout = "1,4" /> 
-                <ice                            layout = "144,4"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_1728_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="2"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_2304_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="2"   layout = "12,16"   io_layout = "1,4" />
-                <lnd                            layout = "12,16"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_3456_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1728" threads="2"   layout = "12,24"   io_layout = "1,4" />
-                <lnd                            layout = "12,24"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,12"  io_layout = "1,4" /> 
-                <ice                            layout = "144,12"  io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_4608_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="4"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "96,12"   io_layout = "1,4" /> 
-                <ice                            layout = "96,12"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_6912_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="3456" threads="2"   layout = "24,24"   io_layout = "1,4" />
-                <lnd                            layout = "24,24"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,24"  io_layout = "1,4" /> 
-                <ice                            layout = "144,24"  io_layout = "1,4" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_on_omp_off_c4">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="108" threads="2"    layout = "3,6"     io_layout = "1,2" hyperthread = "on"  />
+    <lnd                            layout = "3,6"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "36,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "36,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c96_216_timing">
-        <run months="1">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="216" threads="1"    layout = "3,12"    io_layout = "1,4" />
-                <lnd                            layout = "3,12"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" />
-                <ice                            layout = "72,3"    io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_384_timing">
-        <run months="1">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,4" />
-                <lnd                            layout = "4,8"     io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" /> 
-                <ice                            layout = "64,3"    io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude> 
-<freInclude name="c96_432_timing">
-       <run months="1">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="432" threads="1"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" />
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_864_timing">
-        <run months="1">
-                <resources jobWallclock="01:00:00">
-                <atm ranks="432" threads="2"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" />
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_1152_timing">
-        <run months="1">
-                <resources jobWallclock="00:45:00">
-                <atm ranks="576" threads="2"    layout = "4,24"    io_layout = "1,4" />
-                <lnd                            layout = "4,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,4"   io_layout = "1,4" /> 
-                <ice                            layout = "144,4"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_1728_timing">
-        <run months="1">
-                <resources jobWallclock="00:34:00">
-                <atm ranks="864" threads="2"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_2304_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="2"   layout = "12,16"   io_layout = "1,4" />
-                <lnd                            layout = "12,16"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_3456_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1728" threads="2"   layout = "12,24"   io_layout = "1,4" />
-                <lnd                            layout = "12,24"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,12"  io_layout = "1,4" /> 
-                <ice                            layout = "144,12"  io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_4608_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="4"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "96,12"   io_layout = "1,4" /> 
-                <ice                            layout = "96,12"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c96_6912_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="3456" threads="2"   layout = "24,24"   io_layout = "1,4" />
-                <lnd                            layout = "24,24"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,24"  io_layout = "1,4" /> 
-                <ice                            layout = "144,24"  io_layout = "1,4" />
-                </resources>
-        </run>
+<freInclude name="3nodes_ht_off_omp_on_c4">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="108" threads="2"    layout = "3,6"     io_layout = "1,2" hyperthread = "off" />
+    <lnd                            layout = "3,6"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "36,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "36,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<!--================================-->
-<!--= LAYOUTS FOR C192 EXPERIMENTS =-->
-<!--================================-->
-<freInclude name="c192_2304_production">
-        <resources jobWallclock="16:00:00"
-                   segRuntime="2:50:00" >
-                <atm ranks="1152" threads="2"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-    </resources>
+<freInclude name="3nodes_ht_on_omp_on_c4">
+  <resources jobWallclock="03:00:00">
+    <atm ranks="108" threads="4"    layout = "3,6"     io_layout = "1,2" hyperthread = "on"  />
+    <lnd                            layout = "3,6"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "36,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "36,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c192_864_basic">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="1"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_off_omp_off_c3">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="192" threads="1"    layout = "4,8"     io_layout = "1,2" hyperthread = "off" />
+    <lnd                            layout = "4,8"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "64,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c192_1152_debug">
-        <run days="2">
-                <resources jobWallclock="03:00:00">
-                <atm ranks="1152" threads="1"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_on_omp_off_c3">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,2" hyperthread = "on"  />
+    <lnd                            layout = "4,8"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "64,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c192_864_restart">
-        <run days="4 4">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="1"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_off_omp_on_c3">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,2" hyperthread = "off" />
+    <lnd                            layout = "4,8"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "64,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c192_1152_restart">
-        <run days="4 4">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="1"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_on_omp_on_c3">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="192" threads="4"    layout = "4,8"     io_layout = "1,2" hyperthread = "on"  />
+    <lnd                            layout = "4,8"     io_layout = "1,2"                     />
+    <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "64,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-<freInclude name="c192_384_scaling">
-        <run days="8">
-                <resources jobWallclock="01:00:00">
-                <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,4" />
-                <lnd                            layout = "4,8"     io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "64,3"    io_layout = "1,3" /> 
-                <ice                            layout = "64,3"    io_layout = "1,3" />
-                </resources>
-        </run> 
-</freInclude>
-<freInclude name="c192_2304_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="2"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_3456_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="4"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_4608_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="4"   layout = "12,16"   io_layout = "1,4" />
-                <lnd                            layout = "12,16"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_6912_scaling">
-        <run days="8">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="8"    layout = "12,12"   io_layout = "1,4" />
-                <lnd                            layout = "12,12"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_off_omp_off_c4">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="216" threads="1"    layout = "3,12"    io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "3,12"    io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
-
-<freInclude name="c192_384_timing">
-        <run months="1">
-                <resources jobWallclock="03:00:00">
-                <atm ranks="192" threads="2"    layout = "4,8"     io_layout = "1,4" />
-                <lnd                            layout = "4,8"     io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "64,3"    io_layout = "1,3" /> 
-                <ice                            layout = "64,3"    io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude> 
-
-<freInclude name="c192_864_timing">
-        <run months="1">
-                <resources jobWallclock="02:00:00">
-                <atm ranks="864" threads="1"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_1152_timing">
-        <run months="1">
-                <resources jobWallclock="01:45:00">
-                <atm ranks="1152" threads="1"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_2304_timing">
-        <run months="1">
-                <resources jobWallclock="00:45:00">
-                <atm ranks="1152" threads="2"   layout = "8,24"    io_layout = "1,4" />
-                <lnd                            layout = "8,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_3456_timing">
-        <run months="1">
-                <resources jobWallclock="00:45:00">
-                <atm ranks="864" threads="4"    layout = "6,24"    io_layout = "1,4" />
-                <lnd                            layout = "6,24"    io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_4608_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="1152" threads="4"   layout = "12,16"   io_layout = "1,4" />
-                <lnd                            layout = "12,16"   io_layout = "1,4" />
-                <ocn ranks="0"    threads="0"   layout = "144,8"   io_layout = "1,4" /> 
-                <ice                            layout = "144,8"   io_layout = "1,4" />
-                </resources>
-        </run>
-</freInclude>
-<freInclude name="c192_6912_timing">
-        <run months="1">
-                <resources jobWallclock="00:30:00">
-                <atm ranks="864" threads="8"    layout = "12,12"   io_layout = "1,4" />
-                <lnd                            layout = "12,12"   io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,6"   io_layout = "1,3" /> 
-                <ice                            layout = "144,6"   io_layout = "1,3" />
-                </resources>
-        </run>
+<freInclude name="6nodes_ht_on_omp_off_c4">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="216" threads="2"    layout = "3,12"    io_layout = "1,4" hyperthread = "on"  />
+    <lnd                            layout = "3,12"    io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,3"    io_layout = "1,3"                     />
+  </resources>
 </freInclude>
 
+<freInclude name="6nodes_ht_off_omp_on_c4">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="216" threads="2"    layout = "3,12"    io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "3,12"    io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,3"    io_layout = "1,3"                     />
+  </resources>
+</freInclude>
+
+<freInclude name="6nodes_ht_on_omp_on_c4">
+  <resources jobWallclock="01:30:00">
+    <atm ranks="216" threads="4"    layout = "3,12"    io_layout = "1,4" hyperthread = "on"  />
+    <lnd                            layout = "3,12"    io_layout = "1,4"                     />
+    <ocn ranks="0"   threads="0"    layout = "72,3"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,3"    io_layout = "1,3"                     />
+  </resources>
+</freInclude>
+
+<!--===============================-->
+<!--== ALTERNATE TESTING LAYOUTS ==-->
+<!--===============================-->
+
+<freInclude name="12nodes_3_24_layout">
+  <resources jobWallclock="00:45:00">
+    <atm ranks="432"  threads="1"   layout = "3,24"    io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "3,24"    io_layout = "1,4"                     />
+    <ocn ranks="0"    threads="0"   layout = "144,3"   io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "144,3"   io_layout = "1,3"                     />
+  </resources>
+</freInclude>
+
+<freInclude name="12nodes_6_12_layout">
+  <resources jobWallclock="00:45:00">
+    <atm ranks="432"  threads="1"   layout = "6,12"    io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "6,12"    io_layout = "1,4"                     />
+    <ocn ranks="0"    threads="0"   layout = "72,6"    io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,6"    io_layout = "1,3"                     />
+  </resources>
+</freInclude>
+
+<freInclude name="16nodes_4_24_layout">
+  <resources jobWallclock="00:30:00">
+    <atm ranks="576"  threads="1"   layout = "4,24"    io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "4,24"    io_layout = "1,4"                     />
+    <ocn ranks="0"    threads="0"   layout = "72,8"    io_layout = "1,4" hyperthread = "off" />
+    <ice                            layout = "72,8"    io_layout = "1,4"                     />
+  </resources>
+</freInclude>
+
+<freInclude name="48nodes_12_24_layout">
+  <resources jobWallclock="00:15:00">
+    <atm ranks="1728" threads="1"   layout = "12,24"   io_layout = "1,4" hyperthread = "off" />
+    <lnd                            layout = "12,24"   io_layout = "1,4"                     />
+    <ocn ranks="0"    threads="0"   layout = "72,24"   io_layout = "1,3" hyperthread = "off" />
+    <ice                            layout = "72,24"   io_layout = "1,3"                     />
+  </resources>
+</freInclude>
 
 <!--================================-->
 <!--= TEMPLATES FOR POSTPROCESSING =-->
@@ -2074,57 +1804,6 @@ $baseDate
       <component type="river_instant_cubic" start="$(ANA_AMIP_START)" source="river_month_inst" sourceGrid="land-cubedsphere" cmip="off">
         <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)" />
       </component>
-
-<!--
-      <component type="land_month_past" start="$(ANA_AMIP_START)" source="land_month_past" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="land_month_inst_past" start="$(ANA_AMIP_START)" source="land_month_inst_past" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-
-      <component type="land_month_crop" start="$(ANA_AMIP_START)" source="land_month_crop" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="land_month_inst_crop" start="$(ANA_AMIP_START)" source="land_month_inst_crop" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-
-      <component type="land_month_ntrl" start="$(ANA_AMIP_START)" source="land_month_ntrl" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="land_month_inst_ntrl" start="$(ANA_AMIP_START)" source="land_month_inst_ntrl" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-
-      <component type="land_month_scnd" start="$(ANA_AMIP_START)" source="land_month_scnd" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="land_month_inst_scnd" start="$(ANA_AMIP_START)" source="land_month_inst_scnd" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-
-      <component type="LUmip_month_psl" start="$(ANA_AMIP_START)" source="lumip_Lmon_psl" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="LUmip_month_crp" start="$(ANA_AMIP_START)" source="lumip_Lmon_crp" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="LUmip_month_pst" start="$(ANA_AMIP_START)" source="lumip_Lmon_pst" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="monthly" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-
-      <component type="LUmip_year_psl" start="$(ANA_AMIP_START)" source="lumip_Lyr_psl" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="annual" chunkLength="$(PP_AMIP_CHUNK)"/>
-        <timeSeries freq="annual" source="lumip_Lyr"  chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="LUmip_year_crp" start="$(ANA_AMIP_START)" source="lumip_Lyr_crp" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="annual" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
-      <component type="LUmip_year_pst" start="$(ANA_AMIP_START)" source="lumip_Lyr_pst" sourceGrid="land-cubedsphere" xyInterp="180,288" interpMethod="conserve_order1" cmip="on">
-        <timeSeries freq="annual" chunkLength="$(PP_AMIP_CHUNK)"/>
-      </component>
--->
 
     </postProcess>
   </freInclude>
@@ -2586,46 +2265,68 @@ Experiment name = $(name)
     </input>
 
     <runtime>
-      <production simTime="$(EXP_AMIP_LEN)" units="years" >
+        <!--      <production simTime="$(EXP_AMIP_LEN)" units="years" >
           <segment simTime="12" units="months" />
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_production']/node())"/>
-      </production>
-      <regression name="debug">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_debug']/node())"/>
+          <xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_off_c3']/node())"/>
+      </production>-->
+      <regression name="all_c3">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_on_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_on_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_on_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_on_c3']/node())"/></run>
       </regression>
-      <regression name="basic">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_basic']/node())"/>
+      <regression name="all_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_on_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_on_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_on_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_on_c4']/node())"/></run>
       </regression>
-      <regression name="rts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_rts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_rts']/node())"/>
+      <regression name="layout_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='12nodes_3_24_layout']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='12nodes_6_12_layout']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='16nodes_4_24_layout']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='48nodes_12_24_layout']/node())"/></run>
       </regression>
-      <regression name="debugrts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_debugrts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_debugrts']/node())"/>
+      <regression name="basic_c3">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_off_c3']/node())"/></run>
       </regression>
-      <regression name="restart">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_restart']/node())"/>
+      <regression name="basic_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_off_c4']/node())"/></run>
       </regression>
-      <regression name="scaling">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_scaling']/node())"/>
+      <regression name="omp_test_c3">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_on_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_on_c3']/node())"/></run>
       </regression>
-      <regression name="timing">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_timing']/node())"/>
+      <regression name="omp_test_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_off_omp_on_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_off_omp_on_c4']/node())"/></run>
+      </regression>
+      <regression name="ht_test_c3">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_off_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_off_c3']/node())"/></run>
+      </regression>
+      <regression name="ht_test_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_off_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_off_c4']/node())"/></run>
+      </regression>
+      <regression name="4threads_c3">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_on_c3']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_on_c3']/node())"/></run>
+      </regression>
+      <regression name="4threads_c4">
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='3nodes_ht_on_omp_on_c4']/node())"/></run>
+          <run days="3"><xi:include xpointer="xpointer(//freInclude[@name='6nodes_ht_on_omp_on_c4']/node())"/></run>
       </regression>
 
     </runtime>
@@ -2634,363 +2335,5 @@ Experiment name = $(name)
       <xi:include xpointer="xpointer(//freInclude[@name='c96_amip_postprocess']/postProcess/node())"/>
     </postProcess>
   </experiment>
-
-
-
-
-  <experiment name="c96L33_am4p0_cmip6Diag" inherit="cm4p12_$(AWG_VERSION)">
-    <input>
-      <namelist name="atmos_model_nml">
-         nxblocks = 1
-         nyblocks = $atm_threads
-      </namelist>
-      <!-- Namelist -->
-      <namelist file="$(AWG_INPUT_HOME)/nml/ocean_g12.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_common.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/cmip6_am4p0_physics.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_c96L33.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_amip.nml"/>
-      <namelist name="coupler_nml">
-        months = $months,
-        days   = $days,
-        current_date = 1979,1,1,0,0,0,
-        calendar = 'julian'
-        dt_atmos = 1800,
-        dt_cpld  = 7200,
-        use_lag_fluxes = .true.
-        concurrent = .false.
-        do_ocean = .false.
-        ocean_npes = $ocn_ranks
-        atmos_npes = $atm_ranks
-        atmos_nthreads = $atm_threads
-        use_hyper_thread = $ht
-        ncores_per_node = $(NCORE_PER_NODE)
-      </namelist>
-
-      <namelist name="mpp_io_nml">
-        cf_compliance = .true.
-      </namelist>
-
-      <namelist name="aerosolrad_driver_nml">
-        do_swaerosol_forcing = .true.
-        do_lwaerosol_forcing = .true.
-      </namelist>
-
-      <!-- Input datasets -->
-      <xi:include xpointer="xpointer(//freInclude[@name='common_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='common_AM4_v20170208']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='common_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='Volcano_Solar_TimeSeries_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='emissions_cmip6_v20161213']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='L32_gas_conc']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='amip_sst_cmip6']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='data_table_AM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='data_table_co2']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_grid']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_stack_size']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='csh_adjust_dry_mass']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c96L33_initCond']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='diag_table_lm3p2_fullaero_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='field_table_am4p11_cmip6']/input/node())"/>
-    </input>
-
-    <runtime>
-      <production simTime="$(EXP_AMIP_LEN)" units="years" >
-          <segment simTime="12" units="months" />
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_production']/node())"/>
-      </production>
-      <regression name="debug">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_debug']/node())"/>
-      </regression>
-      <regression name="basic">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_basic']/node())"/>
-      </regression>
-      <regression name="rts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_rts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_rts']/node())"/>
-      </regression>
-      <regression name="debugrts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_debugrts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_debugrts']/node())"/>
-      </regression>
-      <regression name="restart">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_restart']/node())"/>
-      </regression>
-      <regression name="scaling">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_scaling']/node())"/>
-      </regression>
-      <regression name="timing">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_timing']/node())"/>
-      </regression>
-      <regression name="year">
-       <run months="12">
-                <resources jobWallclock="4:00:00">
-                <atm ranks="432" threads="1"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" />
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
-       <run months="12">
-                <resources jobWallclock="2:30:00">
-                <atm ranks="432" threads="2"    layout = "3,24"    io_layout = "1,4" />
-                <lnd                            layout = "3,24"    io_layout = "1,4" />
-                <ocn ranks="0"   threads="0"    layout = "144,3"   io_layout = "1,3" />
-                <ice                            layout = "144,3"   io_layout = "1,3" />
-                </resources>
-        </run>
-      </regression>
-
-    </runtime>
-
-    <postProcess>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_amip_postprocess_cmip6']/postProcess/node())"/>
-    </postProcess>
-  </experiment>
-
-
-
-
-<!--==========================-->
-<!--= AMIP-CLIMO EXPERIMENTS =-->
-<!--==========================-->
-  <experiment name="c96L33_am4p0_2010climo" inherit="cm4p12_$(AWG_VERSION)">
-    <input>
-      <namelist name="atmos_model_nml">
-         nxblocks = 1
-         nyblocks = $atm_threads
-      </namelist>
-      <!-- Namelist -->
-      <namelist file="$(AWG_INPUT_HOME)/nml/ocean_g12.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_common.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_physics.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_c96L33.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_2010climo.nml"/>
-      <namelist name="coupler_nml">
-        months = $months,
-        days   = $days,
-        current_date = 1,1,1,0,0,0,
-        calendar = 'noleap'
-        dt_atmos = 1800,
-        dt_cpld  = 7200,
-        use_lag_fluxes = .true.
-        concurrent = .false.
-        do_ocean = .false.
-        ocean_npes = $ocn_ranks
-        atmos_npes = $atm_ranks
-        atmos_nthreads = $atm_threads
-        use_hyper_thread = $ht
-        ncores_per_node = $(NCORE_PER_NODE)
-      </namelist>
-
-      <!-- Input datasets -->
-      <xi:include xpointer="xpointer(//freInclude[@name='common_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='common_AM4_v20170208']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='common_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='Volcano_Solar_2010_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='emissions_cmip6_v20161213']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='L32_gas_conc']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='climo_sst_cmip6']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='data_table_AM4']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_grid']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_stack_size']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='csh_adjust_dry_mass']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c96L33_initCond']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='diag_table_lm3p2_fullaero']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='field_table_am4p11']/input/node())"/>
-    </input>
-
-    <runtime>
-      <production simTime="$(EXP_CLIMO_LEN)" units="years" >
-          <segment simTime="12" units="months" />
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_production']/node())"/>
-      </production>
-      <regression name="debug">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_debug']/node())"/>
-      </regression>
-      <regression name="basic">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_basic']/node())"/>
-      </regression>
-      <regression name="rts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_rts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_rts']/node())"/>
-      </regression>
-      <regression name="debugrts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_debugrts']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_debugrts']/node())"/>
-      </regression>
-      <regression name="restart">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_restart']/node())"/>
-      </regression>
-      <regression name="scaling">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_scaling']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_scaling']/node())"/>
-      </regression>
-      <regression name="timing">
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_216_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_384_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_432_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_864_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1152_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_1728_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_2304_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_3456_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_4608_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c96_6912_timing']/node())"/>
-      </regression>
-
-    </runtime>
-
-    <postProcess>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_climo_postprocess']/postProcess/node())"/>
-    </postProcess>
-  </experiment>
-
-
-  <experiment name="c96L33_am4p0_1850climo" inherit="c96L33_am4p0_2010climo">
-    <input>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_1850climo.nml"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='common_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c96_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='common_AM4_v20170208']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='common_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='Volcano_Solar_1850_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='emissions_cmip6_v20161213']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='L32_gas_conc']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='climo_sst_cmip6']/input/node())"/>
-    </input>
-  </experiment>
-
-  <experiment name="c192L33_am4p0_cmip6Diag" inherit="cm4p12_$(AWG_VERSION)">
-<!-- MDBI -->
-    <input>
-      <namelist name="atmos_model_nml">
-         nxblocks = 1
-         nyblocks = $atm_threads
-      </namelist>
-      <!-- Namelist -->
-      <namelist file="$(AWG_INPUT_HOME)/nml/ocean_g12.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_common.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/cmip6_am4p0_physics.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_c192L33.nml"/>
-      <namelist file="$(AWG_INPUT_HOME)/nml/am4p0_amip.nml"/>
-      <namelist name="coupler_nml">
-        months = $months,
-        days   = $days,
-        current_date = 1979,1,1,0,0,0,
-        calendar = 'julian'
-        dt_atmos = 1200,
-        dt_cpld  = 7200,
-        use_lag_fluxes = .true.
-        concurrent = .false.
-        do_ocean = .false.
-        ocean_npes = $ocn_ranks
-        atmos_npes = $atm_ranks
-        atmos_nthreads = $atm_threads
-        use_hyper_thread = $ht
-        ncores_per_node = $(NCORE_PER_NODE)
-      </namelist>
-
-      <namelist name="mpp_io_nml">
-        cf_compliance = .true.
-      </namelist>
-
-      <namelist name="aerosolrad_driver_nml">
-        do_swaerosol_forcing = .true.
-        do_lwaerosol_forcing = .true.
-      </namelist>
-
-      <!-- Input datasets -->
-      <xi:include xpointer="xpointer(//freInclude[@name='common_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c192_LM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='common_AM4_v20170208']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='common_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='Volcano_Solar_TimeSeries_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='emissions_cmip6_v20161213']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='L32_gas_conc']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='amip_sst_cmip6']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='data_table_AM4']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='data_table_co2']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c192_grid']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='c192_stack_size']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='csh_adjust_dry_mass']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='c192L33_initCond']/input/node())"/>
-
-      <xi:include xpointer="xpointer(//freInclude[@name='diag_table_lm3p2_fullaero_cmip6']/input/node())"/>
-      <xi:include xpointer="xpointer(//freInclude[@name='field_table_am4p11_cmip6']/input/node())"/>
-    </input>
-    <runtime>
-      <production simTime="$(EXP_AMIP_LEN)" units="years" >
-          <segment simTime="12" units="months" />
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_2304_production']/node())"/>
-      </production>
-      <regression name="debug">
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_1152_debug']/node())"/>
-      </regression>
-      <regression name="basic">
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_864_basic']/node())"/>
-      </regression>
-      <regression name="rts">
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_864_restart']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_1152_restart']/node())"/>
-      </regression>
-      <regression name="restart">
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_1152_restart']/node())"/>
-      </regression>
-      <regression name="timing">
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_384_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_864_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_1152_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_2304_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_3456_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_4608_timing']/node())"/>
-          <xi:include xpointer="xpointer(//freInclude[@name='c192_6912_timing']/node())"/>
-      </regression>
-
-    </runtime>
-    <postProcess>
-      <xi:include xpointer="xpointer(//freInclude[@name='c192_amip_postprocess_cmip6']/postProcess/node())"/>
-    </postProcess>
-  </experiment>
-
 
 </experimentSuite>
