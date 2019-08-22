@@ -2,10 +2,10 @@ import numpy as np
 from datetime import timedelta
 
 def atm_factors(n):
-    return list(set((i, int(n//i)) for i in range(2, int(n**0.5) + 1) if n % i == 0 and i < n and ((n//(i**2) < 5 and n//(i**2) > 1) or i == 3)))
+    return list(set((i, n//i) for i in range(2, int(n**0.5) + 1) if n % i == 0 and i < n and ((n//(i**2) < 5 and n//(i**2) > 1) or i == 3)))
 
 def ice_factors(n):
-    return list(set((i, int(n//i)) for i in range(2, int(n**0.5) + 1) if i == 3 ))
+    return list(set((i, n//i) for i in range(2, int(n**0.5) + 1) if i == 3 ))
 
 def determine_io(in_factor):
     if in_factor % 4 == 0:
@@ -41,10 +41,10 @@ class Cluster():
         self.ice_io_layout = (1, determine_io(self.ice_layout[0]))
 
     def make_layout_strings(self):
-        self.atm_layout_string = f'{str(self.atm_layout[0])},{str(self.atm_layout[1])}'
-        self.ice_layout_string = f'{str(self.ice_layout[1])},{str(self.ice_layout[0])}'
-        self.atm_io_layout_string = f'{str(self.atm_io_layout[0])},{str(self.atm_io_layout[1])}'
-        self.ice_io_layout_string = f'{str(self.ice_io_layout[0])},{str(self.ice_io_layout[1])}'
+        self.atm_layout_string = '{},{}'.format(str(self.atm_layout[0]), str(self.atm_layout[1]))
+        self.ice_layout_string = '{},{}'.format(str(self.ice_layout[1]), str(self.ice_layout[0]))
+        self.atm_io_layout_string = '{},{}'.format(str(self.atm_io_layout[0]), str(self.atm_io_layout[1]))
+        self.ice_io_layout_string = '{},{}'.format(str(self.ice_io_layout[0]), str(self.ice_io_layout[1]))
 
     def resolve_layouts(self):
         self.make_io_layouts()
@@ -65,12 +65,12 @@ class Cluster():
             ht_padding = 0
         blank_ht_padding = 17
         string_lines = []
-        string_lines.append(f'{blanks(4)}<site="{self.cluster}">')
-        string_lines.append(f'{blanks(6)}<atm ranks="{str(self.ranks)}"{blanks(atm_ranks_padding)} threads="{str(self.parent.threads)}" layout="{self.atm_layout_string}"{blanks(atm_layout_padding)} io_layout="{self.atm_io_layout_string}"{blanks(atm_io_layout_padding)} hyperthread="{self.parent.ht}"{blanks(ht_padding)} />')
-        string_lines.append(f'{blanks(6)}<lnd {blanks(blank_ranks_padding)} {blanks(blank_threads_padding)} layout="{self.atm_layout_string}"{blanks(atm_layout_padding)} io_layout="{self.atm_io_layout_string}"{blanks(atm_io_layout_padding)} {blanks(blank_ht_padding)} />')
-        string_lines.append(f'{blanks(6)}<ocn ranks="0"{blanks(ocn_ranks_padding)} threads="0" layout="{self.ice_layout_string}"{blanks(ice_layout_padding)} io_layout="{self.ice_io_layout_string}"{blanks(ice_io_layout_padding)} hyperthread="off" />')
-        string_lines.append(f'{blanks(6)}<ice {blanks(blank_ranks_padding)} {blanks(blank_threads_padding)} layout="{self.ice_layout_string}"{blanks(ice_layout_padding)} io_layout="{self.ice_io_layout_string}"{blanks(ice_io_layout_padding)} {blanks(blank_ht_padding)} />')
-        string_lines.append(f'{blanks(4)}<site/>\n')
+        string_lines.append('{}<site="{}">'.format(blanks(4), self.cluster))
+        string_lines.append('{}<atm ranks="{}"{} threads="{}" layout="{}"{} io_layout="{}"{} hyperthread="{}"{} />'.format(blanks(6), str(self.ranks), blanks(atm_ranks_padding), str(self.parent.threads), self.atm_layout_string, blanks(atm_layout_padding), self.atm_io_layout_string, blanks(atm_io_layout_padding), self.parent.ht, blanks(ht_padding)))
+        string_lines.append('{}<lnd {} {} layout="{}"{} io_layout="{}"{} {} />'.format(blanks(6), blanks(blank_ranks_padding), blanks(blank_threads_padding), self.atm_layout_string, blanks(atm_layout_padding), self.atm_io_layout_string, blanks(atm_io_layout_padding), blanks(blank_ht_padding)))
+        string_lines.append('{}<ocn ranks="0"{} threads="0" layout="{}"{} io_layout="{}"{} hyperthread="off" />'.format(blanks(6), blanks(ocn_ranks_padding), self.ice_layout_string, blanks(ice_layout_padding), self.ice_io_layout_string, blanks(ice_io_layout_padding), blanks(blank_ht_padding)))
+        string_lines.append('{}<ice {} {} layout="{}"{} io_layout="{}"{} {} />'.format(blanks(6), blanks(blank_ranks_padding), blanks(blank_threads_padding), self.ice_layout_string, blanks(ice_layout_padding), self.ice_io_layout_string, blanks(ice_io_layout_padding), blanks(blank_ht_padding)))
+        string_lines.append('{}<site/>\n'.format(blanks(4)))
         return '\n'.join(string_lines)
 
 class ResourceTag():
@@ -83,7 +83,7 @@ class ResourceTag():
         self.omp = omp
         if 'on' in self.omp:
             self.threads *= 2
-        self.name = f'{str(self.nodes)}nodes_ht_{self.ht}_omp_{self.omp}'
+        self.name = '{}nodes_ht_{}_omp_{}'.format(str(self.nodes), self.ht, self.omp)
         self.freinclude_block = ''
         self.wallclock = self.clock_to_str()
         self.c3 = Cluster(self, "c3")
@@ -96,7 +96,7 @@ class ResourceTag():
         minutes = (clock_td.seconds//60) % 60
         if minutes < 3 and hours == 0:
             minutes = 3
-        return f'{str(hours).zfill(2)}:{str(minutes).zfill(2)}:{str(0).zfill(2)}'
+        return '{}:{}:{}'.format(str(hours).zfill(2), str(minutes).zfill(2), str(0).zfill(2))
 
     def match_layouts(self):
         layout_diff = 99999
@@ -120,8 +120,8 @@ class ResourceTag():
 
     def write_prefix(self):
         string_lines = []
-        string_lines.append(f'<freInclude name="{self.name}">')
-        string_lines.append(f'  <resources jobWallclock="{self.wallclock}">\n')
+        string_lines.append('<freInclude name="{}">'.format(self.name))
+        string_lines.append('  <resources jobWallclock="{}">\n'.format(self.wallclock))
         self.freinclude_block += '\n'.join(string_lines)
         return
 
