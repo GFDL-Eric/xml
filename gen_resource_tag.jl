@@ -22,7 +22,7 @@ struct AtmLine <: BlockLine
     atm::String
     atm_io::String
     ht::String
-    function AtmLine(int_ranks::Int, int_threads::Int, layouts::Dict{String,String}, ht::String; prefix::Int = 6)
+    function AtmLine(int_ranks::Int, int_threads::Int, layouts::Dict{String,String}, ht::String; prefix::Int = 4)
         ranks = repr(int_ranks)
         threads = repr(int_threads)
         atm = layouts["atm"]
@@ -35,7 +35,7 @@ struct LndLine <: BlockLine
     prefix::Int
     atm::String
     atm_io::String
-    function LndLine(layouts::Dict{String,String}; prefix::Int = 6)
+    function LndLine(layouts::Dict{String,String}; prefix::Int = 4)
         atm = layouts["atm"]
         atm_io = layouts["atm_io"]
         new(prefix, atm, atm_io)
@@ -46,7 +46,7 @@ struct OcnLine <: BlockLine
     prefix::Int
     ice::String
     ice_io::String
-    function OcnLine(layouts::Dict{String,String}; prefix::Int = 6)
+    function OcnLine(layouts::Dict{String,String}; prefix::Int = 4)
         ice = layouts["ice"]
         ice_io = layouts["ice_io"]
         new(prefix, ice, ice_io)
@@ -57,7 +57,7 @@ struct IceLine <: BlockLine
     prefix::Int
     ice::String
     ice_io::String
-    function IceLine(layouts::Dict{String,String}; prefix::Int = 6)
+    function IceLine(layouts::Dict{String,String}; prefix::Int = 4)
         ice = layouts["ice"]
         ice_io = layouts["ice_io"]
         new(prefix, ice, ice_io)
@@ -223,14 +223,14 @@ function write_block_line(ι::IceLine, pd::Dict{String,Int})
     return "$prefix" * "$rank" * "$thread" * "$layout" * "$io_layout" * "$ht" * "$suffix"
 end
 
-function write_cluster_block(χ::String, β::Dict{String,<:BlockLine}, pd::Dict{String,Int})
-    site_l = " "^4 * "<site=\"$χ\">\n"
+function write_cluster_block(χ::String, ω::String, β::Dict{String,<:BlockLine}, pd::Dict{String,Int})
+    resource_l = " "^2 * "<resources site=\"$χ\" jobWallclock=\"$ω\">\n"
     atm_l = write_block_line(β["atm"], pd)
     lnd_l = write_block_line(β["lnd"], pd)
     ocn_l = write_block_line(β["ocn"], pd)
     ice_l = write_block_line(β["ice"], pd)
-    site_end = " "^4 * "</site>\n"
-    return "$site_l" * "$atm_l" * "$lnd_l" * "$ocn_l" * "$ice_l" * "$site_end"
+    resource_end = " "^2 * "</resources>\n"
+    return "$resource_l" * "$atm_l" * "$lnd_l" * "$ocn_l" * "$ice_l" * "$resource_end"
 end
 
 function make_block_lines(ρ::Int, τ::Int, λ::Dict{String, String}, η::String)
@@ -243,8 +243,8 @@ function make_resource_tag(ν::Int, η::String, ω::String)
     threads = calc_threads(my_rts)
     name = rt_name(my_rts)
     wallclock = clock_to_str(ν)
-    prefix = "<freInclude name=\"$name\">\n  <resources jobWallclock=\"$wallclock\">\n"
-    suffix = "  </resources>\n</freInclude>\n\n"
+    prefix = "<freInclude name=\"$name\">\n"
+    suffix = "</freInclude>\n\n"
     my_rt = ResourceTag(my_rts, threads, name, wallclock, prefix, suffix)
     c3 = make_cluster(my_rt, "c3")
     c4 = make_cluster(my_rt, "c4")
@@ -255,8 +255,8 @@ function make_resource_tag(ν::Int, η::String, ω::String)
     c4_pd = padding(c4.ranks, my_rts.ht, c4_layouts)
     c3_Lines = make_block_lines(c3.ranks, threads, c3_layouts, my_rt.setup.ht)
     c4_Lines = make_block_lines(c4.ranks, threads, c4_layouts, my_rt.setup.ht)
-    c3_block = write_cluster_block("c3", c3_Lines, c3_pd)
-    c4_block = write_cluster_block("c4", c4_Lines, c4_pd)
+    c3_block = write_cluster_block("ncrc3", wallclock, c3_Lines, c3_pd)
+    c4_block = write_cluster_block("ncrc4", wallclock, c4_Lines, c4_pd)
     full_block = "$prefix" * "$c3_block" * "$c4_block" * "$suffix"
 end
 
