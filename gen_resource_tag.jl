@@ -244,7 +244,7 @@ function make_resource_tag(ν::Int, η::String, ω::String)
     name = rt_name(my_rts)
     wallclock = clock_to_str(ν)
     prefix = "<freInclude name=\"$name\">\n  <resources jobWallclock=\"$wallclock\">\n"
-    suffix = "  </resources>\n</freInclude>\n"
+    suffix = "  </resources>\n</freInclude>\n\n"
     my_rt = ResourceTag(my_rts, threads, name, wallclock, prefix, suffix)
     c3 = make_cluster(my_rt, "c3")
     c4 = make_cluster(my_rt, "c4")
@@ -257,36 +257,22 @@ function make_resource_tag(ν::Int, η::String, ω::String)
     c4_Lines = make_block_lines(c4.ranks, threads, c4_layouts, my_rt.setup.ht)
     c3_block = write_cluster_block("c3", c3_Lines, c3_pd)
     c4_block = write_cluster_block("c4", c4_Lines, c4_pd)
-    println("$prefix" * "$c3_block" * "$c4_block" * "$suffix")
+    full_block = "$prefix" * "$c3_block" * "$c4_block" * "$suffix"
 end
 
 function write_full(;node_count_list::Array{Int,1} = [3,6,9,12,24,48,96,192],
                     ht_options::Array{String, 1} = ["off", "on"],
                     omp_options::Array{String, 1} = ["off", "on"],
-                    outfile="test_file.xml")
+                    outfile="julia_test_file.xml")
     for nd_count in node_count_list
         for ht_opt in ht_options
             for omp_opt in omp_options
-                make_resource_tag(nd_count, ht_opt, omp_opt)
+                open(outfile, "a+") do my_f
+                    write(my_f, make_resource_tag(nd_count, ht_opt, omp_opt))
+                end
             end
         end
     end
 end
 
 write_full()
-make_resource_tag(6, "off", "off")
-make_resource_tag(9, "off", "off")
-make_resource_tag(12, "off", "off")
-make_resource_tag(16, "off", "off")
-
-#def write_full(node_count_list=[3,6,9,12,24,48,96,192], ht_options=['off', 'on'], omp_options=['off', 'on'], outfile='test_file.xml'):
-#    for nd_count in node_count_list:
-#        for ht_opt in ht_options:
-#            for omp_opt in omp_options:
-#                my_rt = ResourceTag(nodes=nd_count, ht=ht_opt, omp=omp_opt)
-#                my_rt.resolve_and_write()
-#                with open(outfile, 'a+') as fh:
-#                    fh.write(my_rt.freinclude_block)
-#
-#if __name__ == '__main__':
-#    write_full()

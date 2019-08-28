@@ -1,0 +1,544 @@
+<freInclude name="3nodes_ht_off_omp_off">
+  <resources jobWallclock="03:00:00">
+    <site="c3">
+      <atm ranks="96"   threads="1" layout="2,8"     io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="2,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="32,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="32,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="108"  threads="1" layout="2,9"     io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="2,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="36,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="36,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="3nodes_ht_off_omp_on">
+  <resources jobWallclock="03:00:00">
+    <site="c3">
+      <atm ranks="96"   threads="2" layout="2,8"     io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="2,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="32,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="32,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="108"  threads="2" layout="2,9"     io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="2,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="36,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="36,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="3nodes_ht_on_omp_off">
+  <resources jobWallclock="03:00:00">
+    <site="c3">
+      <atm ranks="96"   threads="2" layout="2,8"     io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="2,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="32,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="32,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="108"  threads="2" layout="2,9"     io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="2,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="36,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="36,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="3nodes_ht_on_omp_on">
+  <resources jobWallclock="03:00:00">
+    <site="c3">
+      <atm ranks="96"   threads="4" layout="2,8"     io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="2,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="32,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="32,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="108"  threads="4" layout="2,9"     io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="2,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="36,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="36,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="6nodes_ht_off_omp_off">
+  <resources jobWallclock="01:30:00">
+    <site="c3">
+      <atm ranks="192"  threads="1" layout="4,8"     io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="4,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="64,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="64,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="216"  threads="1" layout="4,9"     io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="4,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="72,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="72,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="6nodes_ht_off_omp_on">
+  <resources jobWallclock="01:30:00">
+    <site="c3">
+      <atm ranks="192"  threads="2" layout="4,8"     io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="4,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="64,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="64,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="216"  threads="2" layout="4,9"     io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="4,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="72,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="72,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="6nodes_ht_on_omp_off">
+  <resources jobWallclock="01:30:00">
+    <site="c3">
+      <atm ranks="192"  threads="2" layout="4,8"     io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="4,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="64,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="64,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="216"  threads="2" layout="4,9"     io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="4,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="72,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="72,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="6nodes_ht_on_omp_on">
+  <resources jobWallclock="01:30:00">
+    <site="c3">
+      <atm ranks="192"  threads="4" layout="4,8"     io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="4,8"     io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="64,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="64,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="216"  threads="4" layout="4,9"     io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="4,9"     io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="72,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="72,3"    io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="9nodes_ht_off_omp_off">
+  <resources jobWallclock="01:00:00">
+    <site="c3">
+      <atm ranks="288"  threads="1" layout="3,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="3,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="96,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="96,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="324"  threads="1" layout="3,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="3,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="108,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="108,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="9nodes_ht_off_omp_on">
+  <resources jobWallclock="01:00:00">
+    <site="c3">
+      <atm ranks="288"  threads="2" layout="3,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="3,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="96,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="96,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="324"  threads="2" layout="3,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="3,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="108,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="108,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="9nodes_ht_on_omp_off">
+  <resources jobWallclock="01:00:00">
+    <site="c3">
+      <atm ranks="288"  threads="2" layout="3,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="3,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="96,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="96,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="324"  threads="2" layout="3,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="3,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="108,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="108,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="9nodes_ht_on_omp_on">
+  <resources jobWallclock="01:00:00">
+    <site="c3">
+      <atm ranks="288"  threads="4" layout="3,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="3,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="96,3"    io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="96,3"    io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="324"  threads="4" layout="3,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="3,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="108,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="108,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="12nodes_ht_off_omp_off">
+  <resources jobWallclock="00:45:00">
+    <site="c3">
+      <atm ranks="384"  threads="1" layout="4,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="4,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="128,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="128,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="432"  threads="1" layout="4,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="4,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="144,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="144,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="12nodes_ht_off_omp_on">
+  <resources jobWallclock="00:45:00">
+    <site="c3">
+      <atm ranks="384"  threads="2" layout="4,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="4,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="128,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="128,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="432"  threads="2" layout="4,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="4,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="144,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="144,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="12nodes_ht_on_omp_off">
+  <resources jobWallclock="00:45:00">
+    <site="c3">
+      <atm ranks="384"  threads="2" layout="4,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="4,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="128,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="128,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="432"  threads="2" layout="4,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="4,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="144,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="144,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="12nodes_ht_on_omp_on">
+  <resources jobWallclock="00:45:00">
+    <site="c3">
+      <atm ranks="384"  threads="4" layout="4,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="4,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="128,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="128,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="432"  threads="4" layout="4,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="4,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="144,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="144,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="24nodes_ht_off_omp_off">
+  <resources jobWallclock="00:22:00">
+    <site="c3">
+      <atm ranks="768"  threads="1" layout="8,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="8,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="256,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="256,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="864"  threads="1" layout="8,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="8,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="288,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="288,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="24nodes_ht_off_omp_on">
+  <resources jobWallclock="00:22:00">
+    <site="c3">
+      <atm ranks="768"  threads="2" layout="8,16"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="8,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="256,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="256,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="864"  threads="2" layout="8,18"    io_layout="1,3"  hyperthread="off" />
+      <lnd                          layout="8,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="288,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="288,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="24nodes_ht_on_omp_off">
+  <resources jobWallclock="00:22:00">
+    <site="c3">
+      <atm ranks="768"  threads="2" layout="8,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="8,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="256,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="256,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="864"  threads="2" layout="8,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="8,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="288,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="288,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="24nodes_ht_on_omp_on">
+  <resources jobWallclock="00:22:00">
+    <site="c3">
+      <atm ranks="768"  threads="4" layout="8,16"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="8,16"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="256,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="256,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="864"  threads="4" layout="8,18"    io_layout="1,3"  hyperthread="on"  />
+      <lnd                          layout="8,18"    io_layout="1,3"                    />
+      <ocn ranks="0"    threads="0" layout="288,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="288,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="48nodes_ht_off_omp_off">
+  <resources jobWallclock="00:11:00">
+    <site="c3">
+      <atm ranks="1536" threads="1" layout="8,32"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="8,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="512,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="512,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="1728" threads="1" layout="9,32"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="9,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="576,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="576,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="48nodes_ht_off_omp_on">
+  <resources jobWallclock="00:11:00">
+    <site="c3">
+      <atm ranks="1536" threads="2" layout="8,32"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="8,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="512,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="512,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="1728" threads="2" layout="9,32"    io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="9,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="576,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="576,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="48nodes_ht_on_omp_off">
+  <resources jobWallclock="00:11:00">
+    <site="c3">
+      <atm ranks="1536" threads="2" layout="8,32"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="8,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="512,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="512,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="1728" threads="2" layout="9,32"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="9,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="576,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="576,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="48nodes_ht_on_omp_on">
+  <resources jobWallclock="00:11:00">
+    <site="c3">
+      <atm ranks="1536" threads="4" layout="8,32"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="8,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="512,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="512,3"   io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="1728" threads="4" layout="9,32"    io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="9,32"    io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="576,3"   io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="576,3"   io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="96nodes_ht_off_omp_off">
+  <resources jobWallclock="00:05:00">
+    <site="c3">
+      <atm ranks="3072" threads="1" layout="16,32"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,32"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1024,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1024,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="3456" threads="1" layout="16,36"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,36"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1152,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1152,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="96nodes_ht_off_omp_on">
+  <resources jobWallclock="00:05:00">
+    <site="c3">
+      <atm ranks="3072" threads="2" layout="16,32"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,32"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1024,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1024,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="3456" threads="2" layout="16,36"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,36"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1152,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1152,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="96nodes_ht_on_omp_off">
+  <resources jobWallclock="00:05:00">
+    <site="c3">
+      <atm ranks="3072" threads="2" layout="16,32"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,32"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1024,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1024,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="3456" threads="2" layout="16,36"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,36"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1152,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1152,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="96nodes_ht_on_omp_on">
+  <resources jobWallclock="00:05:00">
+    <site="c3">
+      <atm ranks="3072" threads="4" layout="16,32"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,32"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1024,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1024,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="3456" threads="4" layout="16,36"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,36"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="1152,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="1152,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="192nodes_ht_off_omp_off">
+  <resources jobWallclock="00:03:00">
+    <site="c3">
+      <atm ranks="6144" threads="1" layout="16,64"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2048,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2048,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="6912" threads="1" layout="18,64"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="18,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2304,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2304,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="192nodes_ht_off_omp_on">
+  <resources jobWallclock="00:03:00">
+    <site="c3">
+      <atm ranks="6144" threads="2" layout="16,64"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="16,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2048,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2048,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="6912" threads="2" layout="18,64"   io_layout="1,4"  hyperthread="off" />
+      <lnd                          layout="18,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2304,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2304,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="192nodes_ht_on_omp_off">
+  <resources jobWallclock="00:03:00">
+    <site="c3">
+      <atm ranks="6144" threads="2" layout="16,64"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2048,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2048,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="6912" threads="2" layout="18,64"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="18,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2304,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2304,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
+<freInclude name="192nodes_ht_on_omp_on">
+  <resources jobWallclock="00:03:00">
+    <site="c3">
+      <atm ranks="6144" threads="4" layout="16,64"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="16,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2048,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2048,3"  io_layout="1,3"                    />
+    </site>
+    <site="c4">
+      <atm ranks="6912" threads="4" layout="18,64"   io_layout="1,4"  hyperthread="on"  />
+      <lnd                          layout="18,64"   io_layout="1,4"                    />
+      <ocn ranks="0"    threads="0" layout="2304,3"  io_layout="1,3"  hyperthread="off" />
+      <ice                          layout="2304,3"  io_layout="1,3"                    />
+    </site>
+  </resources>
+</freInclude>
+
