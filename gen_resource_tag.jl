@@ -101,7 +101,7 @@ function calc_threads(σ::ResourceTagSetup)
     ht * omp
 end
 
-atm_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if mod(χ,i) == 0 && i < χ && ((fld(χ,i^2) < 5 && fld(χ,i^2) > 1) || i == 3)])
+atm_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if mod(χ,i) == 0 && fld(χ,i) < 25 && i < 25 && (fld(χ,i^2) < 5 || i == 3)])
 ice_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if i == 3])
 
 rt_name(σ::ResourceTagSetup) = "$(repr(σ.nodes))nodes_ht_$(σ.ht)_omp_$(σ.omp)"
@@ -260,7 +260,7 @@ function make_resource_tag(ν::Int, η::String, ω::String)
     full_block = "$prefix" * "$c3_block" * "$c4_block" * "$suffix"
 end
 
-function write_full(;node_count_list::Array{Int,1} = [3,6,9,12,24,48,96,192],
+function write_full(;node_count_list::Array{Int,1} = [3,6,9,12,24,48,72],
                     ht_options::Array{String, 1} = ["off", "on"],
                     omp_options::Array{String, 1} = ["off", "on"],
                     outfile="julia_test_file.xml")
