@@ -214,7 +214,7 @@ end
 
 function write_block_line(ι::🧊Line, pd::Dict{String,Int})
     prefix = " "^ι.prefix
-    rank = add_bl("<🧊", pd["bl_ranks"])
+    rank = add_bl("<ice", pd["bl_ranks"])
     thread = add_bl("", pd["bl_threads"])
     layout = add_bl("layout=\"$(ι.🧊)\"", pd["🧊"])
     io_layout = add_bl("io_layout=\"$(ι.🧊_io)\"", pd["🧊_io"])
