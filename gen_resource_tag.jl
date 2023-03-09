@@ -5,9 +5,9 @@ struct AtmLayout <: Layout
     AtmLayout(layout) = new(layout)
 end
 
-struct IceLayout <: Layout
+struct 🧊Layout <: Layout
     layout::Tuple{Int,Int}
-    IceLayout(layout) = new(layout)
+    🧊Layout(layout) = new(layout)
 end
 
 struct IOLayout <: Layout
@@ -44,23 +44,23 @@ end
 
 struct OcnLine <: BlockLine
     prefix::Int
-    ice::String
-    ice_io::String
+    🧊::String
+    🧊_io::String
     function OcnLine(layouts::Dict{String,String}; prefix::Int = 4)
-        ice = layouts["ice"]
-        ice_io = layouts["ice_io"]
-        new(prefix, ice, ice_io)
+        🧊 = layouts["🧊"]
+        🧊_io = layouts["🧊_io"]
+        new(prefix, 🧊, 🧊_io)
     end
 end
 
-struct IceLine <: BlockLine
+struct 🧊Line <: BlockLine
     prefix::Int
-    ice::String
-    ice_io::String
-    function IceLine(layouts::Dict{String,String}; prefix::Int = 4)
-        ice = layouts["ice"]
-        ice_io = layouts["ice_io"]
-        new(prefix, ice, ice_io)
+    🧊::String
+    🧊_io::String
+    function 🧊Line(layouts::Dict{String,String}; prefix::Int = 4)
+        🧊 = layouts["🧊"]
+        🧊_io = layouts["🧊_io"]
+        new(prefix, 🧊, 🧊_io)
     end
 end
 
@@ -88,12 +88,12 @@ struct Cluster
     ranks::Int
     layout_cores::Int
     possible_atm_layouts::Array{AtmLayout}
-    ice_layout::IceLayout
-    Cluster(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, ice_layout) = new(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, ice_layout)
+    🧊_layout::🧊Layout
+    Cluster(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, 🧊_layout) = new(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, 🧊_layout)
 end
 
 determine_io(α::AtmLayout) = mod(α.layout[2],4) == 0 ? 4 : mod(α.layout[2],3) == 0 ? 3 : mod(α.layout[2],2) == 0 ? 2 : 1
-determine_io(ι::IceLayout) = mod(ι.layout[1],4) == 0 ? 4 : mod(ι.layout[1],3) == 0 ? 3 : mod(ι.layout[1],2) == 0 ? 2 : 1
+determine_io(ι::🧊Layout) = mod(ι.layout[1],4) == 0 ? 4 : mod(ι.layout[1],3) == 0 ? 3 : mod(ι.layout[1],2) == 0 ? 2 : 1
 
 function calc_threads(σ::ResourceTagSetup)
     ht = σ.ht == "off" ? 1 : σ.ht == "on" ? 2 : throw(DomainError(σ.ht, "argument must be \"off\" or \"on\""))
@@ -102,7 +102,7 @@ function calc_threads(σ::ResourceTagSetup)
 end
 
 atm_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if mod(χ,i) == 0 && fld(χ,i) < 25 && i < 25 && (fld(χ,i^2) < 5 || i == 3)])
-ice_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if i == 3])
+🧊_factors(χ::Int) = unique([round.(Int, (i,fld(χ,i))) for i=2:floor(sqrt(χ)) if i == 3])
 
 rt_name(σ::ResourceTagSetup) = "$(repr(σ.nodes))nodes_ht_$(σ.ht)_omp_$(σ.omp)"
 
@@ -118,8 +118,8 @@ function make_cluster(ρ::ResourceTag, κ::String)
     ranks = cores_per_node * ρ.setup.nodes
     layout_cores = div(ranks, 6)
     possible_atm_layouts = [AtmLayout(atm_fact) for atm_fact in atm_factors(layout_cores)]
-    ice_layout = IceLayout(ice_factors(ranks)[1])
-    my_cluster = Cluster(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, ice_layout)
+    🧊_layout = 🧊Layout(🧊_factors(ranks)[1])
+    my_cluster = Cluster(ρ, κ, cores_per_node, ranks, layout_cores, possible_atm_layouts, 🧊_layout)
 end
 
 make_io_layout(λ::Layout) = IOLayout((1, determine_io(λ)))
@@ -149,12 +149,12 @@ end
 
 function make_cluster_layouts(χ::Cluster, α::AtmLayout)
     atm_layout = α
-    ice_layout = χ.ice_layout
+    🧊_layout = χ.🧊_layout
     atm_io_layout = make_io_layout(atm_layout)
-    ice_io_layout = make_io_layout(ice_layout)
-    proper_ice_layout = IceLayout(reverse(ice_layout.layout))
-    layout_strings = Dict(x => make_layout_string(y) for (x,y) in zip(["atm","ice","atm_io","ice_io"],
-                    [atm_layout, proper_ice_layout, atm_io_layout, ice_io_layout]))
+    🧊_io_layout = make_io_layout(🧊_layout)
+    proper_🧊_layout = 🧊Layout(reverse(🧊_layout.layout))
+    layout_strings = Dict(x => make_layout_string(y) for (x,y) in zip(["atm","🧊","atm_io","🧊_io"],
+                    [atm_layout, proper_🧊_layout, atm_io_layout, 🧊_io_layout]))
 end
 
 function padding(ranks::Int, ht_bool::String, layouts::Dict{String,String}; ocn_ranks::Int = 4,
@@ -162,16 +162,16 @@ function padding(ranks::Int, ht_bool::String, layouts::Dict{String,String}; ocn_
                  lay_base::Int = 8, io_lay_base::Int = 5)
     atm_ranks = atm_base - length(repr(ranks))
     atm = lay_base - length(layouts["atm"])
-    ice = lay_base - length(layouts["ice"])
+    🧊 = lay_base - length(layouts["🧊"])
     atm_io = io_lay_base - length(layouts["atm_io"])
-    ice_io = io_lay_base - length(layouts["ice_io"])
+    🧊_io = io_lay_base - length(layouts["🧊_io"])
     if "$ht_bool" == "on"
         ht = 2
     else
         ht = 1
     end
-    return Dict("atm_ranks" => atm_ranks, "ocn_ranks" => ocn_ranks, "atm" => atm, "ice" => ice,
-                "atm_io" => atm_io, "ice_io" => ice_io, "ht" => ht, "bl_ht" => bl_ht,
+    return Dict("atm_ranks" => atm_ranks, "ocn_ranks" => ocn_ranks, "atm" => atm, "🧊" => 🧊,
+                "atm_io" => atm_io, "🧊_io" => 🧊_io, "ht" => ht, "bl_ht" => bl_ht,
                 "bl_ranks" => bl_ranks, "bl_threads" => bl_threads)
 end
 
@@ -205,19 +205,19 @@ function write_block_line(Ο::OcnLine, pd::Dict{String,Int})
     prefix = " "^Ο.prefix
     rank = add_bl("<ocn ranks=\"0\"", pd["ocn_ranks"])
     thread = add_bl("threads=\"0\"", 1)
-    layout = add_bl("layout=\"$(Ο.ice)\"", pd["ice"])
-    io_layout = add_bl("io_layout=\"$(Ο.ice_io)\"", pd["ice_io"])
+    layout = add_bl("layout=\"$(Ο.🧊)\"", pd["🧊"])
+    io_layout = add_bl("io_layout=\"$(Ο.🧊_io)\"", pd["🧊_io"])
     ht = add_bl("hyperthread=\"off\"", 1)
     suffix = "/>\n"
     return "$prefix" * "$rank" * "$thread" * "$layout" * "$io_layout" * "$ht" * "$suffix"
 end
 
-function write_block_line(ι::IceLine, pd::Dict{String,Int})
+function write_block_line(ι::🧊Line, pd::Dict{String,Int})
     prefix = " "^ι.prefix
-    rank = add_bl("<ice", pd["bl_ranks"])
+    rank = add_bl("<🧊", pd["bl_ranks"])
     thread = add_bl("", pd["bl_threads"])
-    layout = add_bl("layout=\"$(ι.ice)\"", pd["ice"])
-    io_layout = add_bl("io_layout=\"$(ι.ice_io)\"", pd["ice_io"])
+    layout = add_bl("layout=\"$(ι.🧊)\"", pd["🧊"])
+    io_layout = add_bl("io_layout=\"$(ι.🧊_io)\"", pd["🧊_io"])
     ht = add_bl("", pd["bl_ht"])
     suffix = "/>\n"
     return "$prefix" * "$rank" * "$thread" * "$layout" * "$io_layout" * "$ht" * "$suffix"
@@ -228,14 +228,14 @@ function write_cluster_block(χ::String, ω::String, β::Dict{String,<:BlockLine
     atm_l = write_block_line(β["atm"], pd)
     lnd_l = write_block_line(β["lnd"], pd)
     ocn_l = write_block_line(β["ocn"], pd)
-    ice_l = write_block_line(β["ice"], pd)
+    🧊_l = write_block_line(β["🧊"], pd)
     resource_end = " "^2 * "</resources>\n"
-    return "$resource_l" * "$atm_l" * "$lnd_l" * "$ocn_l" * "$ice_l" * "$resource_end"
+    return "$resource_l" * "$atm_l" * "$lnd_l" * "$ocn_l" * "$🧊_l" * "$resource_end"
 end
 
 function make_block_lines(ρ::Int, τ::Int, λ::Dict{String, String}, η::String)
     return Dict{String,BlockLine}("atm" => AtmLine(ρ, τ, λ, η), "lnd" => LndLine(λ),
-                                  "ocn" => OcnLine(λ), "ice" => IceLine(λ))
+                                  "ocn" => OcnLine(λ), "🧊" => 🧊Line(λ))
 end
 
 function make_resource_tag(ν::Int, η::String, ω::String)
